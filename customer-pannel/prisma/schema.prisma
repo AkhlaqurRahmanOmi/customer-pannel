@@ -14,8 +14,45 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+enum ImportStatus {
+  IDLE
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+model Customer {
+  id               Int       @id @default(autoincrement())
+  customerId       String    @unique
+  firstName        String?
+  lastName         String?
+  company          String?
+  city             String?
+  country          String?
+  phone1           String?
+  phone2           String?
+  email            String?
+  subscriptionDate DateTime?
+  website          String?
+  aboutCustomer    String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model ImportJob {
+  id String @id @default(uuid())
+
+  filePath String
+  status   ImportStatus
+
+  bytesRead     BigInt @default(0)
+  rowsProcessed BigInt @default(0)
+  rowsInserted  BigInt @default(0)
+
+  lastRowHash String?
+  startedAt   DateTime?
+  completedAt DateTime?
+  error       String?
+
+  updatedAt DateTime @updatedAt
 }

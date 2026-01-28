@@ -384,7 +384,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  User: 'User'
+  Customer: 'Customer',
+  ImportJob: 'ImportJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,81 +401,155 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user"
+    modelProps: "customer" | "importJob"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
-    User: {
-      payload: Prisma.$UserPayload<ExtArgs>
-      fields: Prisma.UserFieldRefs
+    Customer: {
+      payload: Prisma.$CustomerPayload<ExtArgs>
+      fields: Prisma.CustomerFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.UserFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
+          args: Prisma.CustomerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+          args: Prisma.CustomerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
         }
         findFirst: {
-          args: Prisma.UserFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
+          args: Prisma.CustomerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+          args: Prisma.CustomerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
         }
         findMany: {
-          args: Prisma.UserFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+          args: Prisma.CustomerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>[]
         }
         create: {
-          args: Prisma.UserCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+          args: Prisma.CustomerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
         }
         createMany: {
-          args: Prisma.UserCreateManyArgs<ExtArgs>
+          args: Prisma.CustomerCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+          args: Prisma.CustomerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>[]
         }
         delete: {
-          args: Prisma.UserDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+          args: Prisma.CustomerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
         }
         update: {
-          args: Prisma.UserUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+          args: Prisma.CustomerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
         }
         deleteMany: {
-          args: Prisma.UserDeleteManyArgs<ExtArgs>
+          args: Prisma.CustomerDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.UserUpdateManyArgs<ExtArgs>
+          args: Prisma.CustomerUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+          args: Prisma.CustomerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>[]
         }
         upsert: {
-          args: Prisma.UserUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+          args: Prisma.CustomerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
         }
         aggregate: {
-          args: Prisma.UserAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateUser>
+          args: Prisma.CustomerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCustomer>
         }
         groupBy: {
-          args: Prisma.UserGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserGroupByOutputType>[]
+          args: Prisma.CustomerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomerGroupByOutputType>[]
         }
         count: {
-          args: Prisma.UserCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+          args: Prisma.CustomerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomerCountAggregateOutputType> | number
+        }
+      }
+    }
+    ImportJob: {
+      payload: Prisma.$ImportJobPayload<ExtArgs>
+      fields: Prisma.ImportJobFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ImportJobFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ImportJobFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>
+        }
+        findFirst: {
+          args: Prisma.ImportJobFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ImportJobFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>
+        }
+        findMany: {
+          args: Prisma.ImportJobFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>[]
+        }
+        create: {
+          args: Prisma.ImportJobCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>
+        }
+        createMany: {
+          args: Prisma.ImportJobCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ImportJobCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>[]
+        }
+        delete: {
+          args: Prisma.ImportJobDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>
+        }
+        update: {
+          args: Prisma.ImportJobUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>
+        }
+        deleteMany: {
+          args: Prisma.ImportJobDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ImportJobUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ImportJobUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>[]
+        }
+        upsert: {
+          args: Prisma.ImportJobUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportJobPayload>
+        }
+        aggregate: {
+          args: Prisma.ImportJobAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateImportJob>
+        }
+        groupBy: {
+          args: Prisma.ImportJobGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImportJobGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ImportJobCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImportJobCountAggregateOutputType> | number
         }
       }
     }
@@ -517,13 +592,42 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UserScalarFieldEnum = {
+export const CustomerScalarFieldEnum = {
   id: 'id',
+  customerId: 'customerId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  company: 'company',
+  city: 'city',
+  country: 'country',
+  phone1: 'phone1',
+  phone2: 'phone2',
   email: 'email',
-  name: 'name'
+  subscriptionDate: 'subscriptionDate',
+  website: 'website',
+  aboutCustomer: 'aboutCustomer',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const ImportJobScalarFieldEnum = {
+  id: 'id',
+  filePath: 'filePath',
+  status: 'status',
+  bytesRead: 'bytesRead',
+  rowsProcessed: 'rowsProcessed',
+  rowsInserted: 'rowsInserted',
+  lastRowHash: 'lastRowHash',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  error: 'error',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImportJobScalarFieldEnum = (typeof ImportJobScalarFieldEnum)[keyof typeof ImportJobScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -581,6 +685,48 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ImportStatus'
+ */
+export type EnumImportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImportStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ImportStatus[]'
+ */
+export type ListEnumImportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImportStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -692,7 +838,8 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
-  user?: Prisma.UserOmit
+  customer?: Prisma.CustomerOmit
+  importJob?: Prisma.ImportJobOmit
 }
 
 /* Types for Logging */
