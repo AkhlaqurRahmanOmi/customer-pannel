@@ -51,7 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  Customer: 'Customer',
+  ImportJob: 'ImportJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,13 +71,42 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UserScalarFieldEnum = {
+export const CustomerScalarFieldEnum = {
   id: 'id',
+  customerId: 'customerId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  company: 'company',
+  city: 'city',
+  country: 'country',
+  phone1: 'phone1',
+  phone2: 'phone2',
   email: 'email',
-  name: 'name'
+  subscriptionDate: 'subscriptionDate',
+  website: 'website',
+  aboutCustomer: 'aboutCustomer',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const ImportJobScalarFieldEnum = {
+  id: 'id',
+  filePath: 'filePath',
+  status: 'status',
+  bytesRead: 'bytesRead',
+  rowsProcessed: 'rowsProcessed',
+  rowsInserted: 'rowsInserted',
+  lastRowHash: 'lastRowHash',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  error: 'error',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImportJobScalarFieldEnum = (typeof ImportJobScalarFieldEnum)[keyof typeof ImportJobScalarFieldEnum]
 
 
 export const SortOrder = {

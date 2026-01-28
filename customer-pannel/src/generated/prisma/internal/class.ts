@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id    Int     @id @default(autoincrement())\n  email String  @unique\n  name  String?\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum ImportStatus {\n  IDLE\n  RUNNING\n  COMPLETED\n  FAILED\n}\n\nmodel Customer {\n  id               Int       @id @default(autoincrement())\n  customerId       String    @unique\n  firstName        String?\n  lastName         String?\n  company          String?\n  city             String?\n  country          String?\n  phone1           String?\n  phone2           String?\n  email            String?\n  subscriptionDate DateTime?\n  website          String?\n  aboutCustomer    String?\n  createdAt        DateTime  @default(now())\n  updatedAt        DateTime  @updatedAt\n}\n\nmodel ImportJob {\n  id String @id @default(uuid())\n\n  filePath String\n  status   ImportStatus\n\n  bytesRead     BigInt @default(0)\n  rowsProcessed BigInt @default(0)\n  rowsInserted  BigInt @default(0)\n\n  lastRowHash String?\n  startedAt   DateTime?\n  completedAt DateTime?\n  error       String?\n\n  updatedAt DateTime @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Customer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"customerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone1\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone2\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subscriptionDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"website\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"aboutCustomer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ImportJob\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filePath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ImportStatus\"},{\"name\":\"bytesRead\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"rowsProcessed\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"rowsInserted\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"lastRowHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"error\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -60,8 +60,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Customers
+   * const customers = await prisma.customer.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -82,8 +82,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Customers
+ * const customers = await prisma.customer.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -177,14 +177,24 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
+   * `prisma.customer`: Exposes CRUD operations for the **Customer** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
+    * // Fetch zero or more Customers
+    * const customers = await prisma.customer.findMany()
     * ```
     */
-  get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
+  get customer(): Prisma.CustomerDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.importJob`: Exposes CRUD operations for the **ImportJob** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ImportJobs
+    * const importJobs = await prisma.importJob.findMany()
+    * ```
+    */
+  get importJob(): Prisma.ImportJobDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
