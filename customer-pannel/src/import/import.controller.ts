@@ -30,7 +30,6 @@ export class ImportController {
       "Import job started",
       200,
       this.traceIdService.getOrGenerate(req.headers),
-      "1",
     );
   }
 }

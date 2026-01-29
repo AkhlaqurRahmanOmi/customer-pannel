@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ApiResponse } from '@shared/interfaces';
 
 /**
@@ -6,6 +7,13 @@ import { ApiResponse } from '@shared/interfaces';
  */
 @Injectable()
 export class ResponseBuilderService {
+  private readonly defaultVersion: string;
+
+  constructor(private readonly configService: ConfigService) {
+    // Use version from config or default to '1'
+    this.defaultVersion = '1';
+  }
+
   /**
    * Build a successful API response.
    */
@@ -14,7 +22,6 @@ export class ResponseBuilderService {
     message: string,
     statusCode: number,
     traceId: string,
-    version: string,
   ): ApiResponse<T> {
     return {
       success: true,
@@ -24,7 +31,7 @@ export class ResponseBuilderService {
       meta: {
         timestamp: new Date().toISOString(),
         traceId,
-        version,
+        version: this.defaultVersion,
       },
     };
   }
