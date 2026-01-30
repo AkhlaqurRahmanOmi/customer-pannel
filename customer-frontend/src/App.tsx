@@ -1,39 +1,91 @@
 import './App.css'
+import { useImportProgress } from './hooks/useImportProgress'
+import { CustomerTable } from './components/CustomerTable'
+
+function formatTime(seconds: number | null): string {
+    if (seconds === null || seconds <= 0) return '--';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}m ${secs}s`;
+}
+
+function formatNumber(value: string | number): string {
+    return Number(value).toLocaleString();
+}
 
 function App() {
-  return (
-    <div className="page">
-      <section className="sync-card" aria-label="Upload progress">
-        <div className="sync-row">
-          <div className="sync-left">
-            <p className="sync-title">Upload progress: 70 %</p>
-            <div className="progress-track" role="progressbar" aria-valuenow={70} aria-valuemin={0} aria-valuemax={100}>
-              <div className="progress-fill" />
-              <div className="progress-hatch" />
-            </div>
-            <p className="sync-meta">Processed: 1000 | Elapsed: 2m 16s | ETA: 2m 10s</p>
-          </div>
-          <button className="sync-button" type="button">
-            Start sync
-          </button>
+    const { progress, isLoading, error, startSync } = useImportProgress({
+        totalRows: 2000000,
+        recentLimit: 12,
+    });
+
+    const percent = progress?.percent ?? 0;
+    const status = progress?.status ?? 'idle';
+    const isRunning = status === 'RUNNING';
+    // Disable button while loading initial data, during sync, or if already running
+    const isDisabled = isLoading || !progress || progress.disableSync;
+
+    const handleStartSync = async () => {
+        try {
+            await startSync();
+        } catch (err) {
+            console.error('Failed to start sync:', err);
+        }
+    };
+
+    const getStatusText = () => {
+        // Show status-based messages first (most important)
+        if (status === 'RUNNING') return `Upload progress: ${percent.toFixed(1)}%`;
+        if (status === 'COMPLETED') return 'Import completed';
+        if (status === 'FAILED') return `Import failed: ${progress?.error || 'Unknown error'}`;
+        // Show errors only when idle
+        if (error) return `Error: ${error}`;
+        if (!progress) return 'Loading...';
+        return 'Ready to sync';
+    };
+
+    return (
+        <div className="page">
+            <section className="sync-card" aria-label="Upload progress">
+                <div className="sync-row">
+                    <div className="sync-left">
+                        <p className={`sync-title ${status === 'FAILED' ? 'sync-title--error' : ''}`}>
+                            {getStatusText()}
+                        </p>
+                        <div
+                            className="progress-track"
+                            role="progressbar"
+                            aria-valuenow={percent}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                        >
+                            <div className="progress-fill" style={{ width: `${percent}%` }} />
+                            {isRunning && <div className="progress-hatch" />}
+                        </div>
+                        <p className="sync-meta">
+                            Processed: {formatNumber(progress?.rowsProcessed ?? 0)} |
+                            Elapsed: {formatTime(progress?.elapsedSec ?? 0)} |
+                            ETA: {formatTime(progress?.etaSec ?? null)}
+                            {progress?.rateRowsPerSec ? ` | ${formatNumber(Math.round(progress.rateRowsPerSec))} rows/sec` : ''}
+                        </p>
+                    </div>
+                    <button
+                        className="sync-button"
+                        type="button"
+                        onClick={handleStartSync}
+                        disabled={isDisabled}
+                    >
+                        {isLoading ? 'Starting...' : isRunning ? 'Syncing...' : 'Start sync'}
+                    </button>
+                </div>
+            </section>
+
+            <CustomerTable
+                recentCustomers={progress?.recentCustomers}
+                isImporting={isRunning}
+            />
         </div>
-      </section>
-      <section className="table-card" aria-label="Customer table">
-        <header className="table-header">
-          <h2>Customer table</h2>
-        </header>
-        <div className="table-grid" role="table" aria-label="Customer data grid">
-          {Array.from({ length: 12 }).map((_, rowIndex) => (
-            <div className="table-row" role="row" key={`row-${rowIndex}`}>
-              {Array.from({ length: 6 }).map((__, colIndex) => (
-                <div className="table-cell" role="cell" key={`cell-${rowIndex}-${colIndex}`} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  )
+    )
 }
 
 export default App
