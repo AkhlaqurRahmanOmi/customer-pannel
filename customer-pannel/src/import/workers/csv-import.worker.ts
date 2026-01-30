@@ -101,10 +101,10 @@ function pick(record: Record<string, any>, keys: string[]): string {
 
 
 function mapCsvRecordToCustomer(record: Record<string, any>): CustomerRow | null {
-    const customerId = pick(record, ["customerId", "customer_id", "customerid", "id"]);
+    const customerId = pick(record, ["Customer Id", "customer_id", "customerid", "id"]);
 
-    const firstNameRaw = pick(record, ["firstName", "first_name", "firstname"]);
-    const lastNameRaw = pick(record, ["lastName", "last_name", "lastname"]);
+    const firstNameRaw = pick(record, ["firstName", "first_name", "firstname","First Name"]);
+    const lastNameRaw = pick(record, ["lastName", "last_name", "lastname", "Last Name"]);
     const fullName = pick(record, ["name", "full_name", "customer_name"]);
 
     let firstName = firstNameRaw;
@@ -115,17 +115,17 @@ function mapCsvRecordToCustomer(record: Record<string, any>): CustomerRow | null
         lastName = split.lastName ?? lastName;
     }
 
-    const email = normalizeEmail(pick(record, ["email", "email_address", "mail"]));
-    const company = pick(record, ["company", "company_name", "organization"]);
-    const city = pick(record, ["city", "town"]);
-    const country = pick(record, ["country", "country_name"]);
-    const phone1 = pick(record, ["phone1", "phone_1", "phone", "mobile", "mobile_number"]);
-    const phone2 = pick(record, ["phone2", "phone_2", "secondary_phone"]);
+    const email = normalizeEmail(pick(record, ["mail", "email_address", "Email"]));
+    const company = pick(record, ["Company", "company_name", "organization"]);
+    const city = pick(record, ["City", "town"]);
+    const country = pick(record, ["Country", "country_name"]);
+    const phone1 = pick(record, ["Phone 1", "phone_1", "phone", "mobile", "mobile_number"]);
+    const phone2 = pick(record, ["Phone 2", "phone_2", "secondary_phone"]);
     const subscriptionDate = parseDate(
-        pick(record, ["subscriptionDate", "subscription_date", "subscribed_at", "created_at"]),
+        pick(record, ["subscriptionDate", "Subscription Date", "subscribed_at", "created_at"]),
     );
-    const website = pick(record, ["website", "url", "site"]);
-    const aboutCustomer = pick(record, ["aboutCustomer", "about_customer", "about", "notes", "description", "bio"]);
+    const website = pick(record, ["website", "url", "site","Website"]);
+    const aboutCustomer = pick(record, ["aboutCustomer", "about_customer", "about", "notes", "description", "bio","About Customer"]);
 
     const effectiveCustomerId = customerId || email;
     if (!effectiveCustomerId) return null;
