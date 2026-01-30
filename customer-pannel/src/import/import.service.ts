@@ -57,7 +57,7 @@ export class ImportService {
         },
       });
 
-      return runningJob;
+      return this.serializeJob(runningJob);
     }
 
     // 2) Create new job
@@ -84,7 +84,7 @@ export class ImportService {
       },
     });
 
-    return job;
+    return this.serializeJob(job);
   }
 
   async getRunningJob() {
@@ -92,6 +92,17 @@ export class ImportService {
       where: { status: ImportStatus.RUNNING },
       orderBy: { updatedAt: "desc" },
     });
+  }
+
+  private serializeJob(job: any) {
+    return {
+      ...job,
+      bytesRead: job.bytesRead?.toString?.() ?? String(job.bytesRead ?? 0),
+      rowsProcessed:
+        job.rowsProcessed?.toString?.() ?? String(job.rowsProcessed ?? 0),
+      rowsInserted:
+        job.rowsInserted?.toString?.() ?? String(job.rowsInserted ?? 0),
+    };
   }
 
   private resolveFilePath(input?: string) {
